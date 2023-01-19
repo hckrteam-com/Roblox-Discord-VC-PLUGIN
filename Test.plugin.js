@@ -104,7 +104,7 @@ const map = (x, in_min, in_max, out_min, out_max) => {
 
 let toggleButton = BdApi.DOM.parseHTML(`<button aria-expanded="false" aria-label="Start VC" type="button" class="button-1EGGcP buttonColor-3bP3fX button-f2h6uQ lookFilled-yCfaCM colorBrand-I6CyqQ sizeSmall-wU2dO- fullWidth-fJIsjq grow-2sR_-F button-1EGGcP" id="vc-button"><div id="vc-button2" class="contents-3ca1mk buttonContents-y1l-R8">VC</div></button>`)
 let stopped = false
-
+let debounce = false
 let defaultVolumes = {}
 let active = false
 let previousVoiceChannel
@@ -201,7 +201,12 @@ module.exports = !global.ZeresPluginLibrary ? class {
         }
     }
 
-    toggleButton.addEventListener('click', () => {handleToggle()})
+    toggleButton.addEventListener('click', () => {
+        if (debounce) {return} 
+        debounce = true
+        setTimeout(() => {debounce = false}, 1000)
+        handleToggle()
+    })
 
     class plugin extends Plugin {
         constructor() {
