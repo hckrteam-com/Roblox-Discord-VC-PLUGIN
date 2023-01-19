@@ -213,8 +213,7 @@ module.exports = !global.ZeresPluginLibrary ? class {
 
 
             stopped = false
-            const userId = UserStore.getCurrentUser().id
-            // console.log('set previousVoiceChannel', SelectedChannelStore.getVoiceChannelId())
+            const currentUserId = UserStore.getCurrentUser().id
             previousVoiceChannel = SelectedChannelStore.getVoiceChannelId()
 
             const wrapper = document.querySelector(".wrapper-3Hk9OB")
@@ -254,7 +253,7 @@ module.exports = !global.ZeresPluginLibrary ? class {
                         handleToggle(false)
                     }
 
-                    request.get("https://roblox-discord-vc.hckrteam.com/api/discord?userId="+userId, (error, response, body) => {
+                    request.get("https://Roblox-Discord-VC-API.dawidooss.repl.co/get?userId="+currentUserId, (error, response, body) => {
                         if (!active) return
                         const json = JSON.parse(body)
                         if (json.error) {console.warn(json.error); return}
@@ -269,7 +268,8 @@ module.exports = !global.ZeresPluginLibrary ? class {
 
                         for (let userId of usersInVC) {
                             if (!Object.keys(json).find(e => {return userId == e})) {
-                                MediaEngineActions.setLocalVolume(userId, 100)
+                                MediaEngineActions.setLocalVolume(userId, 0)
+                                console.log(userId)
                             }
                         }
                     })
