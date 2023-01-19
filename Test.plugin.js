@@ -238,11 +238,7 @@ module.exports = !global.ZeresPluginLibrary ? class {
 
                     if (!active) {
                         if (SelectedChannelStore.getVoiceChannelId() == IC_CHANNEL_ID) {
-                            if (previousVoiceChannel) {
-                                ChannelActions.selectVoiceChannel(previousVoiceChannel)
-                            } else {
-                                ChannelActions.disconnect()
-                            }
+                            handleToggle(true)
                         }
                         return
                     }
