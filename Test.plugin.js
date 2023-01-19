@@ -214,8 +214,14 @@ module.exports = !global.ZeresPluginLibrary ? class {
         }
         onStart() {
 
-            const IC_CHANNEL = document.querySelector(`.content-2a4AW9 > li[data-dnd-name="${ChannelStore.getChannel(IC_CHANNEL_ID).name}"]`)
 
+            // MediaEngineActions.setLocalVolume("723452084355072024", AudioConvert.perceptualToAmplitude(map(150, 0, 200, 0, 200)))
+
+            let IC_CHANNEL = document.querySelector(`.content-2a4AW9 > li[data-dnd-name="${ChannelStore.getChannel(IC_CHANNEL_ID).name}"]`)
+
+            BdApi.onRemoved(IC_CHANNEL, () => {
+                IC_CHANNEL = document.querySelector(`.content-2a4AW9 > li[data-dnd-name="${ChannelStore.getChannel(IC_CHANNEL_ID).name}"]`)
+            })
 
             stopped = false
             const currentUserId = UserStore.getCurrentUser().id
@@ -236,6 +242,9 @@ module.exports = !global.ZeresPluginLibrary ? class {
             intervalId = setInterval(() => {
                 try {
                     // if not in VC, wrapper children will be 0, wait till joins, so it changes to 1 and then append the button
+                    if (IC_CHANNEL == null) {
+                        IC_CHANNEL = document.querySelector(`.content-2a4AW9 > li[data-dnd-name="${ChannelStore.getChannel(IC_CHANNEL_ID).name}"]`)
+                    }
                     if (previousWrapperChildrenCount == 0 && wrapper.children.length == 1) {
                         append()
                     }
